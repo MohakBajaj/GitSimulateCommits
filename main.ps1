@@ -1,4 +1,45 @@
 # Git Commit Simulator
+# Figlet ASCII Art with Color
+Write-Host @"
+ Welcome to the OG
+  ___  __ ______   ___  ___   ___  __ ____  ___ __ ______  __  __ ___  ___ __ __ __     ___  ______  ___   ____ 
+ // \\ || | || |  //   // \\  ||\\//| |||\\//|| || | || | (( \ || ||\\//|| || || ||    // \\ | || | // \\  || \\
+(( ___ ||   ||   ((   ((   )) || \/ | ||| \/ || ||   ||    \\  || || \/ || || || ||    ||=||   ||  ((   )) ||_//
+ \\_|| ||   ||    \\__ \\_//  ||    | |||    || ||   ||   \_)) || ||    || \\_// ||__| || ||   ||   \\_//  || \\
+
+ By: @MohakBajaj`n`n
+"@ -ForegroundColor Cyan
+
+# Display current repository, branch, and remote information with colors
+Write-Host "Fetching repository information..." -ForegroundColor Yellow
+
+try {
+    # Get the current repository path
+    $repoPath = git rev-parse --show-toplevel 2>$null
+    if (!$repoPath) {
+        Write-Host "Not in a git repository. Please navigate to a git repository and try again." -ForegroundColor Red
+        exit
+    }
+
+    # Get the current branch name
+    $branchName = git rev-parse --abbrev-ref HEAD
+
+    # Get the remote URL
+    $remoteUrl = git remote get-url origin 2>$null
+    if (!$remoteUrl) {
+        $remoteUrl = "No remote repository configured."
+    }
+
+    # Display the information
+    Write-Host "Repository: $repoPath" -ForegroundColor Green
+    Write-Host "Branch: $branchName" -ForegroundColor Green
+    Write-Host "Remote: $remoteUrl`n" -ForegroundColor Green
+}
+catch {
+    Write-Host "An error occurred while fetching repository information. Please ensure you are in a valid git repository." -ForegroundColor Red
+    exit
+}
+
 # Function to parse the user input into a DateTime object
 function Invoke-Parse-Date {
     param (
@@ -6,6 +47,11 @@ function Invoke-Parse-Date {
     )
 
     try {
+        # Handle the special case of "today"
+        if ($inputDate.ToLower() -eq "today") {
+            return Get-Date
+        }
+
         # Attempt to parse using built-in .NET methods
         $parsedDate = [DateTime]::Parse($inputDate)
         return $parsedDate
@@ -28,43 +74,101 @@ function Invoke-Parse-Date {
                 return [DateTime]::Parse("$year-$month-$day")
             }
             default {
-                Write-Error "Unrecognized date format. Please try again."
+                Write-Host "Unrecognized date format. Please try again." -ForegroundColor Red
                 exit
             }
         }
     }
 }
 
-# Prompt user for a past timeline
-$timeline = Read-Host "Enter the past timeline (e.g., '1 year ago', '5 days', '12-05-23', etc.)"
+# Prompt user for commit type: single day or range
+Write-Host "Do you want to simulate commits for a single day or a range of dates? (single/1 or range/N):" -ForegroundColor Cyan
+$commitType = Read-Host
 
-# Parse the input date
-$commitDate = Invoke-Parse-Date -inputDate $timeline
+if ($commitType.ToLower() -match '^(single|1)$') {
+    # Prompt user for a single day date
+    Write-Host "Enter the date for the single day (e.g., '1 month ago', '12-05-23', 'today', etc.):" -ForegroundColor Cyan
+    $singleDateInput = Read-Host
 
-# Ask the user if they want to simulate commits up to today
-$simulateToToday = Read-Host "Do you want to simulate commits up to today? (yes/no)"
+    # Parse the single date
+    $singleDate = Invoke-Parse-Date -inputDate $singleDateInput
 
-if ($simulateToToday -eq 'yes') {
-    # Iterate from the commitDate to today
-    while ($commitDate -le (Get-Date)) {
-        $commitCount = Get-Random -Minimum 1 -Maximum 11
-        for ($i = 1; $i -le $commitCount; $i++) {
-            $randomMessage = "Simulated commit #$i on $commitDate"
-            git commit --allow-empty -m $randomMessage --date "$commitDate"
-            Write-Host "Created commit #$i with message '$randomMessage' on $commitDate"
-        }
-        $commitDate = $commitDate.AddDays(1)
-    }
-    Write-Host "Completed commits simulation from $timeline to today."
-}
-else {
     # Generate a random number of commits (between 1 and 10) for the single date
     $commitCount = Get-Random -Minimum 1 -Maximum 11
-
     for ($i = 1; $i -le $commitCount; $i++) {
-        $randomMessage = "Simulated commit #$i"
-        git commit --allow-empty -m $randomMessage --date "$commitDate"
-        Write-Host "Created commit #$i with message '$randomMessage' on $commitDate"
+        $randomMessage = "Simulated commit #$i on $singleDate"
+        # Suppress Git output and handle commit with custom message
+        git commit --allow-empty -m $randomMessage --date "$singleDate" >$null 2>&1
+        Write-Host "Simulating commit: '$randomMessage' on $singleDate" -ForegroundColor Green
     }
-    Write-Host "Completed $commitCount commit(s) on $commitDate."
+    Write-Host "Completed $commitCount commit(s) on $singleDate." -ForegroundColor Yellow
+}
+elseif ($commitType.ToLower() -match '^(range|n)$') {
+    # Prompt user for a start date
+    Write-Host "Enter the start date (e.g., '1 month ago', '12-05-23', 'today', etc.):" -ForegroundColor Cyan
+    $startDateInput = Read-Host
+
+    # Parse the start date
+    $startDate = Invoke-Parse-Date -inputDate $startDateInput
+
+    # Prompt user for an end date
+    Write-Host "Enter the end date (e.g., '5 days ago', '12-05-23', 'today', etc.):" -ForegroundColor Cyan
+    $endDateInput = Read-Host
+
+    # Parse the end date
+    $endDate = Invoke-Parse-Date -inputDate $endDateInput
+
+    # Validate that the end date is not before the start date
+    if ($endDate -lt $startDate) {
+        Write-Host "End date cannot be earlier than start date. Please try again." -ForegroundColor Red
+        exit
+    }
+
+    # Iterate from the start date to the end date
+    $currentDate = $startDate
+    while ($currentDate -le $endDate) {
+        $commitCount = Get-Random -Minimum 1 -Maximum 11
+        for ($i = 1; $i -le $commitCount; $i++) {
+            $randomMessage = "Simulated commit #$i on $currentDate"
+            # Suppress Git output and handle commit with custom message
+            git commit --allow-empty -m $randomMessage --date "$currentDate" >$null 2>&1
+            Write-Host "Simulating commit: '$randomMessage' on $currentDate" -ForegroundColor Green
+        }
+        $currentDate = $currentDate.AddDays(1)
+    }
+
+    Write-Host "Completed commits simulation from $startDateInput to $endDateInput." -ForegroundColor Yellow
+}
+else {
+    Write-Host "Invalid input. Please enter 'single', '1', 'range', or 'N'." -ForegroundColor Red
+    exit
+}
+
+# Function to validate user input for yes/no questions
+function Invoke-Validate-YesNoInput {
+    param (
+        [string]$inputYN
+    )
+    
+    switch -Regex ($inputYN.ToLower()) {
+        '^(yes|y)$' { return $true }
+        '^(no|n)$' { return $false }
+        default { 
+            Write-Host "Invalid input. Please enter 'yes', 'no', 'y', or 'n'." -ForegroundColor Red
+            exit
+        }
+    }
+}
+
+# Prompt the user if they want to push the changes
+Write-Host "Do you want to push the simulated commits to the remote repository? (yes/no):" -ForegroundColor Cyan
+$pushChangesInput = Read-Host
+$pushChanges = Invoke-Validate-YesNoInput -input $pushChangesInput
+
+if ($pushChanges) {
+    git push >$null 2>&1
+    Write-Host "Changes have been pushed to the remote repository." -ForegroundColor Green
+}
+else {
+    Write-Host "Changes were not pushed." -ForegroundColor Yellow
 }
