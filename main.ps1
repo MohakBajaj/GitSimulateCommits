@@ -1,14 +1,35 @@
 # Git Commit Simulator
 # Figlet ASCII Art with Color
-Write-Host @"
- Welcome to the OG
-  ___  __ ______   ___  ___   ___  __ ____  ___ __ ______  __  __ ___  ___ __ __ __     ___  ______  ___   ____ 
- // \\ || | || |  //   // \\  ||\\//| |||\\//|| || | || | (( \ || ||\\//|| || || ||    // \\ | || | // \\  || \\
-(( ___ ||   ||   ((   ((   )) || \/ | ||| \/ || ||   ||    \\  || || \/ || || || ||    ||=||   ||  ((   )) ||_//
- \\_|| ||   ||    \\__ \\_//  ||    | |||    || ||   ||   \_)) || ||    || \\_// ||__| || ||   ||   \\_//  || \\
+function Show-RainbowFiglet {
+    param (
+        [string]$text
+    )
+
+    $colors = @(
+        "Red", "Yellow", "Green", "Cyan", "Blue", "Magenta"
+    )
+
+    $figletLines = @"
+Welcome To The OG
+  ___  __ ______  ___  ___   ___  __ ____  ___ __ ______  __  __ ___  ___ __ __ __     ___  ______  ___   ____ 
+ // \\ || | || | //   // \\  ||\\//| |||\\//|| || | || | (( \ || ||\\//|| || || ||    // \\ | || | // \\  || \\
+(( ___ ||   ||  ((   ((   )) || \/ | ||| \/ || ||   ||    \\  || || \/ || || || ||    ||=||   ||  ((   )) ||_//
+ \\_|| ||   ||   \\__ \\_//  ||    | |||    || ||   ||   \_)) || ||    || \\_// ||__| || ||   ||   \\_//  || \\
 
  By: @MohakBajaj`n`n
-"@ -ForegroundColor Cyan
+"@
+
+    $lines = $figletLines -split "`n"
+    $colorIndex = 0
+
+    foreach ($line in $lines) {
+        Write-Host $line -ForegroundColor $colors[$colorIndex]
+        $colorIndex = ($colorIndex + 1) % $colors.Length
+    }
+}
+
+Show-RainbowFiglet
+
 
 # Display current repository, branch, and remote information with colors
 Write-Host "Fetching repository information..." -ForegroundColor Yellow
