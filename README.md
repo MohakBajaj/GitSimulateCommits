@@ -89,3 +89,4 @@ Running the Script
 
 - Ensure that Git is installed and properly configured in your environment.
 - Run the script from a Git repository directory to avoid errors.
+- The absurd amount of commits in this repo were made while testing the script.
