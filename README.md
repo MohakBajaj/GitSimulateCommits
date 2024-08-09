@@ -9,7 +9,7 @@ The **Git Commit Simulator** is a PowerShell script designed to simulate Git com
 1. **Figlet Art with Rainbow Colors:** Displays a welcoming Figlet ASCII art with a rainbow color effect.
 2. **Repository Information:** Shows the current repository path, branch, and remote URL.
 3. **Date Parsing:** Handles various date formats, including relative dates like "yesterday" and "1 month ago."
-4. **Commit Simulation:** Allows the user to simulate commits for a single day or a range of dates.
+4. **Commit Simulation:** Allows the user to simulate commits for a single day or a range of dates. You can even simulate commit on a future date.
 5. **Push Confirmation:** Asks if the user wants to push the simulated commits to the remote repository.
 
 ## Usage
