@@ -8,48 +8,48 @@ The **Git Commit Simulator** is a PowerShell script designed to simulate Git com
 
 This Git commit simulator script can be useful in several scenarios. Here are some potential use cases:
 
-1. GitHub contribution graph manipulation:
+1. **GitHub contribution graph manipulation:**
 
-- Developers might use this script to fill in gaps in their GitHub contribution graph, making their profile appear more active.
-- It could be used to create artistic patterns or messages on the contribution graph.
+   - Developers might use this script to fill in gaps in their GitHub contribution graph, making their profile appear more active.
+   - It could be used to create artistic patterns or messages on the contribution graph.
 
-2. Testing and development:
+2. **Testing and development:**
 
-- When developing tools that analyze Git history or commit patterns, this script can generate a large number of commits quickly for testing purposes.
-- It can be useful for creating sample repositories with specific commit patterns for educational or demonstration purposes.
+   - When developing tools that analyze Git history or commit patterns, this script can generate a large number of commits quickly for testing purposes.
+   - It can be useful for creating sample repositories with specific commit patterns for educational or demonstration purposes.
 
-3. Backdating projects:
+3. **Backdating projects:**
 
-- If a developer forgot to commit their work regularly, they could use this to simulate a more consistent commit history.
-- It could be used to backdate a project's start date in Git history.
+   - If a developer forgot to commit their work regularly, they could use this to simulate a more consistent commit history.
+   - It could be used to backdate a project's start date in Git history.
 
-4. Commit habit formation:
+4. **Commit habit formation:**
 
-- As a tool to help developers build a habit of committing code regularly, by simulating what a consistent commit history looks like.
+   - As a tool to help developers build a habit of committing code regularly, by simulating what a consistent commit history looks like.
 
-5. Git workflow testing:
+5. **Git workflow testing:**
 
-- When setting up CI/CD pipelines or Git hooks, this script can quickly generate commits to test how the system handles different commit patterns or volumes.
+   - When setting up CI/CD pipelines or Git hooks, this script can quickly generate commits to test how the system handles different commit patterns or volumes.
 
-6. Data analysis and visualization:
+6. **Data analysis and visualization:**
 
-- For creating sample data to test Git analytics tools or to generate specific patterns for Git-based data visualization projects.
+   - For creating sample data to test Git analytics tools or to generate specific patterns for Git-based data visualization projects.
 
-7. Team activity simulation:
+7. **Team activity simulation:**
 
-- In a team environment, it could be used to simulate different team members' commit patterns for project management or productivity analysis tools.
+   - In a team environment, it could be used to simulate different team members' commit patterns for project management or productivity analysis tools.
 
-8. Git feature exploration:
+8. **Git feature exploration:**
 
-- As a learning tool for understanding how Git handles dates, empty commits, and large numbers of commits.
+   - As a learning tool for understanding how Git handles dates, empty commits, and large numbers of commits.
 
-9. Repository warmup:
+9. **Repository warmup:**
 
-- When starting a new project that you want to appear more established, this could be used to create an initial commit history.
+   - When starting a new project that you want to appear more established, this could be used to create an initial commit history.
 
-10. Backup date preservation:
+10. **Backup date preservation:**
 
-- If migrating a project from another version control system and wanting to preserve the original commit dates.
+    - If migrating a project from another version control system and wanting to preserve the original commit dates.
 
 ## Features
 
